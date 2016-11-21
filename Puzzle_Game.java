@@ -2,14 +2,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.*;
  
-public class Puzzle_Game extends JFrame {
+class Puzzle_Game extends JFrame {
 	
     private JPanel panel = new JPanel(new GridLayout(4, 4, 2, 2));
     private static Random generator = new Random();
     private int[][] num_array = new int[4][4];
-
+    private  javax.swing.Timer t;
+    static int minute, second;
 
     
     
@@ -33,24 +35,34 @@ public class Puzzle_Game extends JFrame {
         panel.setBackground(new Color(128, 128, 128));
         container.add(panel);
         
+     
+        
         JButton btnNewButton = new JButton("New Game");// New_game_button
+        JButton btnNewButton_1 = new JButton("Exit"); //Exit_button
+        
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
         		panel.removeAll();
         		container.repaint();
+        	
         		initialize();
         		repaintField();
+        		
         	}
         });
-        btnNewButton.setBounds(31, 38, 106, 41);
-        getContentPane().add(btnNewButton);
         
-        JButton btnNewButton_1 = new JButton("Exit"); //Exit_button
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.exit(0);
         	}
         });
+        
+        btnNewButton.setBounds(31, 38, 106, 41);
+        getContentPane().add(btnNewButton);
+        
+       
+      
         btnNewButton_1.setBounds(31, 90, 106, 41);
         getContentPane().add(btnNewButton_1);
         
@@ -60,7 +72,11 @@ public class Puzzle_Game extends JFrame {
     }
     
     
+
     public void initialize() {
+    	
+    	
+          
         int[] invariants = new int[16];
  
         for (int i = 0; i < 4; i++) {
@@ -128,7 +144,7 @@ public class Puzzle_Game extends JFrame {
         panel.validate();
     }
  
-    public boolean checkWin() {
+    public boolean Check_if_Win() {
         boolean status = true;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -141,6 +157,7 @@ public class Puzzle_Game extends JFrame {
         }
         return status;
     }
+    
  
   
  
@@ -194,8 +211,8 @@ public class Puzzle_Game extends JFrame {
             }
         }
         repaintField();
-        if (checkWin()) {
-            JOptionPane.showMessageDialog(null, "W", "Congratz", 1);
+        if (Check_if_Win()) {
+            JOptionPane.showMessageDialog(null, "Win", "Congratz", 1);
             initialize();
             repaintField();
             setVisible(false);
