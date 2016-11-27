@@ -23,32 +23,43 @@ public class MainMenu extends JFrame  {
 	public MainMenu() {
 		super("15_puzzle");
 	
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 240, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JButton btnNewButton = new JButton("Play");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
 				Puzzle_Game g = new Puzzle_Game();
 				g.setVisible(true);
 				
 			}
 		});
-		btnNewButton.setBounds(160, 42, 89, 23);
-		getContentPane().add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Chose");
+		
+		JButton btnNewButton_1 = new JButton("Select profile");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 			}
 		});
-		btnNewButton_1.setBounds(170, 76, 89, 23);
+		
+		JButton btnNewButton_2 = new JButton("Exit");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		btnNewButton.setBounds(37, 20, 150, 45);
+		getContentPane().add(btnNewButton);
+		
+		btnNewButton_1.setBounds(37, 78, 150, 45);
 		getContentPane().add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setBounds(160, 110, 89, 23);
+		
+		btnNewButton_2.setBounds(37, 188, 150, 45);
 		getContentPane().add(btnNewButton_2);
 	}
 
