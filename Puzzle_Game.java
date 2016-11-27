@@ -5,13 +5,12 @@ import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.*;
  
-class Puzzle_Game extends JFrame {
+public class Puzzle_Game extends JFrame {
 	
     private JPanel panel = new JPanel(new GridLayout(4, 4, 2, 2));
-    private static Random generator = new Random();
+    private static Random Random_Pos_Generetor = new Random();
     private int[][] num_array = new int[4][4];
-    private  javax.swing.Timer t;
-    static int minute, second;
+
 
     
     
@@ -29,7 +28,7 @@ class Puzzle_Game extends JFrame {
        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = getContentPane();
-        initialize();
+        //initialize();
         getContentPane().setLayout(null);
         panel.setBounds(169, 11, 312, 322);
         panel.setBackground(new Color(128, 128, 128));
@@ -54,7 +53,9 @@ class Puzzle_Game extends JFrame {
         
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.exit(0);
+        		setVisible(false);
+        		MainMenu m = new MainMenu();
+        		m.setVisible(true);
         	}
         });
         
@@ -63,7 +64,7 @@ class Puzzle_Game extends JFrame {
         
        
       
-        btnNewButton_1.setBounds(31, 90, 106, 41);
+        btnNewButton_1.setBounds(31, 134, 106, 41);
         getContentPane().add(btnNewButton_1);
         
         
@@ -79,32 +80,32 @@ class Puzzle_Game extends JFrame {
           
         int[] invariants = new int[16];
  
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
                 num_array[i][j] = 0;
-                invariants[i*4 + j] = 0;
+                invariants[i*4+j] = 0;
             }
         }
  
-        for (int i = 1; i < 16; i++) {
+        for (int i=1; i<16; i++) {
             int k;
             int l;
             do {
-                k = generator.nextInt(100)%4 ;
-                l = generator.nextInt(100)%4 ;
+                k = Random_Pos_Generetor.nextInt(100)%4 ;
+                l = Random_Pos_Generetor.nextInt(100)%4 ;
             }
             while (num_array[k][l] != 0);
             num_array[k][l] = i;
             invariants[k*4+l] = i;
         }
  
-        boolean change = true;
+         boolean change = true;
         int counter = 1;
         while (change) {
             change = false;
-            for (int i = 0; i < 16; i++) {
+            for (int i=0; i<16; i++) {
                 if (invariants[i] != i) {
-                    for (int j = 0; j < 16; j++) {
+                    for (int j=0; j<16; j++) {
                         if (invariants[j] == i) {
                             int temp = invariants[i];
                             invariants[i] = invariants[j];
@@ -129,8 +130,8 @@ class Puzzle_Game extends JFrame {
     public void repaintField() {
         panel.removeAll();
  
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
                 JButton button = new JButton(Integer.toString(num_array[i][j]));
                 button.setFocusable(false);
                 panel.add(button);
@@ -141,16 +142,16 @@ class Puzzle_Game extends JFrame {
             }
         }
  
-        panel.validate();
+        //panel.validate();
     }
  
     public boolean Check_if_Win() {
         boolean status = true;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (i == 3 && j > 2)
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (i == 3 && j>2)
                     break;
-                if (num_array[i][j] != i * 4 + j + 1) {
+                if (num_array[i][j] != i*4+j+1) {
                     status = false;
                 }
             }
@@ -177,37 +178,39 @@ class Puzzle_Game extends JFrame {
 
  
     public void change(int num) {
-        int i = 0, j = 0;
-        for (int k = 0; k < 4; k++) {
-            for (int l = 0; l < 4; l++) {
+        int i=0;
+        int j=0;
+        for (int k=0; k<4; k++) {
+            for (int l=0; l<4; l++) {
                 if (num_array[k][l] == num) {
                     i = k;
                     j = l;
                 }
             }
         }
-        if (i > 0) {
-            if (num_array[i - 1][j] == 0) {
-                num_array[i - 1][j] = num;
+        if (i>0) {
+            if (num_array[i-1][j] == 0) {
+                num_array[i-1][j] = num;
                 num_array[i][j] = 0;
             }
         }
-        if (i < 3) {
-            if (num_array[i + 1][j] == 0) {
-                num_array[i + 1][j] = num;
+        if (i<3) {
+            if (num_array[i+1][j] == 0) {
+                num_array[i+1][j] = num;
                 num_array[i][j] = 0;
             }
         }
-        if (j > 0) {
-            if (num_array[i][j - 1] == 0) {
-                num_array[i][j - 1] = num;
+        if (j>0) {
+            if (num_array[i][j-1] == 0) {
+                num_array[i][j-1] = num;
                 num_array[i][j] = 0;
             }
         }
-        if (j < 3) {
-            if (num_array[i][j + 1] == 0) {
-                num_array[i][j + 1] = num;
-                num_array[i][j] = 0;
+        if (j<3) 
+        {
+            if (num_array[i][j+1] == 0) {
+                num_array[i][j+1] = num;
+                num_array[i][j]=0;
             }
         }
         repaintField();
