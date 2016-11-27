@@ -10,6 +10,8 @@ public class Puzzle_Game extends JFrame {
     private JPanel panel = new JPanel(new GridLayout(4, 4, 2, 2));
     private static Random Random_Pos_Generetor = new Random();
     private int[][] num_array = new int[4][4];
+    private  javax.swing.Timer t;
+    static int minute, second;
 
 
     
