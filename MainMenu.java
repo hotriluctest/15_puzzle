@@ -41,6 +41,9 @@ public class MainMenu extends JFrame  {
 		JButton btnNewButton_1 = new JButton("Select profile");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				JFrame fr = new Select();
+				fr.setVisible(true);
 				
 			}
 		});
@@ -48,7 +51,7 @@ public class MainMenu extends JFrame  {
 		JButton btnNewButton_2 = new JButton("Exit");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				System.exit(0);
 			}
 		});
 		
