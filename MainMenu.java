@@ -28,6 +28,7 @@ public class MainMenu extends JFrame  {
 		getContentPane().setLayout(null);
 		
 		JButton btnNewButton = new JButton("Play");
+		btnNewButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -39,6 +40,7 @@ public class MainMenu extends JFrame  {
 		
 		
 		JButton btnNewButton_1 = new JButton("Select profile");
+		btnNewButton_1.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
@@ -49,6 +51,7 @@ public class MainMenu extends JFrame  {
 		});
 		
 		JButton btnNewButton_2 = new JButton("Exit");
+		btnNewButton_2.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

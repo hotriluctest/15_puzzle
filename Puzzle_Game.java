@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
  
 public class Puzzle_Game extends JFrame {
 	
@@ -11,19 +13,57 @@ public class Puzzle_Game extends JFrame {
     private static Random Random_Pos_Generetor = new Random();
     private int[][] num_array = new int[4][4];
     private  javax.swing.Timer t;
-    static int minute, second;
-
+    private static long second , minute;
+ 
 
     
     
     public static void main(String[] args) {
-        JFrame app = new Puzzle_Game();
-        app.setVisible(true);
+    	 EventQueue.invokeLater(new Runnable() {
+    	      public void run() {
+    	        try {
+    	          Puzzle_Game window = new Puzzle_Game();
+    	          window.setVisible(true);
+    	        } catch (Exception e) {
+    	          e.printStackTrace();
+    	        }
+    	      }
+    	    });
     }
     
     
     public Puzzle_Game() {
-        super("15_puzzle");
+    	super("15_puzzle");
+        init();
+    }
+    
+    public void init(){
+    	
+    	final DecimalFormat dc = new DecimalFormat("00");
+
+        t = new javax.swing.Timer(
+            1000,
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    setTitle(dc.format(minute) + ":" + dc.format(second));
+                    second++;
+                    if (second >= 60) {
+                        second %= 60;
+                        minute++;
+                    }
+                }
+            }
+        );
+        pack();
+        setVisible(true);
+        Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
+        int w=(int)d.getWidth();
+        int h=(int)d.getHeight();
+        setLocation((int)(w/2-getWidth()/2),(int)(h/2-getHeight()/2));
+        t.start();
+    
+    	
+        getContentPane().setBackground(SystemColor.menu);
         setBounds(200, 200, 497, 394);
         setResizable(false);
         
@@ -33,13 +73,14 @@ public class Puzzle_Game extends JFrame {
         //initialize();
         getContentPane().setLayout(null);
         panel.setBounds(169, 11, 312, 322);
-        panel.setBackground(new Color(128, 128, 128));
+        panel.setBackground(SystemColor.inactiveCaption);
         container.add(panel);
         
      
         
         JButton btnNewButton = new JButton("New Game");// New_game_button
-        JButton btnNewButton_1 = new JButton("Exit"); //Exit_button
+        btnNewButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
+       
         
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -47,11 +88,14 @@ public class Puzzle_Game extends JFrame {
         		panel.removeAll();
         		container.repaint();
         	
-        		initialize();
+        		Scramble();
         		repaintField();
         		
         	}
         });
+        
+        JButton btnNewButton_1 = new JButton("Exit"); //Exit_button
+        btnNewButton_1.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
         
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -68,7 +112,7 @@ public class Puzzle_Game extends JFrame {
       
         btnNewButton_1.setBounds(31, 134, 106, 41);
         getContentPane().add(btnNewButton_1);
-        
+      
         
         
         repaintField();
@@ -76,12 +120,12 @@ public class Puzzle_Game extends JFrame {
     
     
 
-    public void initialize() {
+    public void Scramble() {
     	
     	
           
         int[] invariants = new int[16];
- 
+ do{
         for (int i=0; i<4; i++) {
             for (int j=0; j<4; j++) {
                 num_array[i][j] = 0;
@@ -93,40 +137,33 @@ public class Puzzle_Game extends JFrame {
             int k;
             int l;
             do {
-                k = Random_Pos_Generetor.nextInt(100)%4 ;
-                l = Random_Pos_Generetor.nextInt(100)%4 ;
+                k = Random_Pos_Generetor.nextInt(4) ;
+                l = Random_Pos_Generetor.nextInt(4) ;
             }
             while (num_array[k][l] != 0);
             num_array[k][l] = i;
             invariants[k*4+l] = i;
         }
- 
-         boolean change = true;
-        int counter = 1;
-        while (change) {
-            change = false;
-            for (int i=0; i<16; i++) {
-                if (invariants[i] != i) {
-                    for (int j=0; j<16; j++) {
-                        if (invariants[j] == i) {
-                            int temp = invariants[i];
-                            invariants[i] = invariants[j];
-                            invariants[j] = temp;
-                            change = true;
-                            counter++;
-                            break;
-                        }
-                    }
-                    break;
-                }
+ }
+ 	while (!canBeSolved(invariants));
+ 	repaintField();
+    }
+    
+    private boolean canBeSolved(int[] invariants) {
+        int sum = 0;
+        for (int i = 0; i < 16; i++) {
+            if (invariants[i] == 0) {
+                sum += i / 4;
+                continue;
+            }
+
+            for (int j = i + 1; j < 16; j++) {
+                if (invariants[j] < invariants[i])
+                    sum ++;
             }
         }
- 
-        if (counter % 2 != 0) {
-            int temp = num_array[0][0];
-            num_array[0][0] = num_array[3][3];
-            num_array[3][3] = temp;
-        }
+        System.out.println(sum % 2 == 0);
+        return sum % 2 == 0;
     }
  
     public void repaintField() {
@@ -218,12 +255,12 @@ public class Puzzle_Game extends JFrame {
         repaintField();
         if (Check_if_Win()) {
             JOptionPane.showMessageDialog(null, "Win", "Congratz", 1);
-            initialize();
+            Scramble();
             repaintField();
             setVisible(false);
             setVisible(true);
         }
     }
- 
-  
+   
 }
+  
