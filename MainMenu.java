@@ -11,25 +11,33 @@ public class MainMenu extends JFrame  {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-			JFrame f1 = new MainMenu();
-			f1.setVisible(true);
-		};
-	
+	 public static void main(String[] args) {
+    	 EventQueue.invokeLater(new Runnable() {
+    	      public void run() {
+    	        try {
+    	          MainMenu window = new MainMenu();
+    	          window.setVisible(true);
+    	        } catch (Exception e) {
+    	          e.printStackTrace();
+    	        }
+    	      }
+    	    });
+    }
 
 	/**
 	 * Create the application.
 	 */
 	public MainMenu() {
 		super("15_puzzle");
+		setResizable(false);
 	
 		setBounds(100, 100, 240, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("Play");
-		btnNewButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton PlayButton = new JButton("Play");
+		PlayButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
+		PlayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				Puzzle_Game g = new Puzzle_Game();
@@ -39,9 +47,9 @@ public class MainMenu extends JFrame  {
 		});
 		
 		
-		JButton btnNewButton_1 = new JButton("Select profile");
-		btnNewButton_1.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton Select_P_Button = new JButton("Select profile");
+		Select_P_Button.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
+		Select_P_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
 				JFrame fr = new Select();
@@ -50,23 +58,23 @@ public class MainMenu extends JFrame  {
 			}
 		});
 		
-		JButton btnNewButton_2 = new JButton("Exit");
-		btnNewButton_2.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton ExitButton = new JButton("Exit");
+		ExitButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
+		ExitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 		
-		btnNewButton.setBounds(37, 20, 150, 45);
-		getContentPane().add(btnNewButton);
+		PlayButton.setBounds(37, 20, 150, 45);
+		getContentPane().add(PlayButton);
 		
-		btnNewButton_1.setBounds(37, 78, 150, 45);
-		getContentPane().add(btnNewButton_1);
+		Select_P_Button.setBounds(37, 78, 150, 45);
+		getContentPane().add(Select_P_Button);
 		
 		
-		btnNewButton_2.setBounds(37, 188, 150, 45);
-		getContentPane().add(btnNewButton_2);
+		ExitButton.setBounds(37, 188, 150, 45);
+		getContentPane().add(ExitButton);
 	}
 
 	/**

@@ -4,8 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.Timer;
-import java.util.TimerTask;
+
  
 public class Puzzle_Game extends JFrame {
 	
@@ -39,13 +38,21 @@ public class Puzzle_Game extends JFrame {
     
     public void init(){
     	
+    	 JLabel Time_Label = new JLabel(""); 
+    	 Time_Label.setFont(new Font("Showcard Gothic", Font.ITALIC, 17));
+    	 Time_Label.setHorizontalAlignment(SwingConstants.CENTER);
+    	 
+    	 
+    
+    	
     	final DecimalFormat dc = new DecimalFormat("00");
-
-        t = new javax.swing.Timer(
-            1000,
-            new ActionListener() {
+    	 //Time_Label.setText(dc.format(minute) + ":" + dc.format(second));
+    	 
+        t = new javax.swing.Timer( 1000,
+        		new ActionListener() 
+        	{
                 public void actionPerformed(ActionEvent e) {
-                    setTitle(dc.format(minute) + ":" + dc.format(second));
+                    Time_Label.setText(dc.format(minute) + ":" + dc.format(second));
                     second++;
                     if (second >= 60) {
                         second %= 60;
@@ -54,23 +61,24 @@ public class Puzzle_Game extends JFrame {
                 }
             }
         );
-        pack();
+        
+        
         setVisible(true);
         Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
         int w=(int)d.getWidth();
         int h=(int)d.getHeight();
         setLocation((int)(w/2-getWidth()/2),(int)(h/2-getHeight()/2));
-        t.start();
+       
     
     	
         getContentPane().setBackground(SystemColor.menu);
-        setBounds(200, 200, 497, 394);
+        setBounds(200, 200, 500, 373);
         setResizable(false);
         
        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = getContentPane();
-        //initialize();
+      
         getContentPane().setLayout(null);
         panel.setBounds(169, 11, 312, 322);
         panel.setBackground(SystemColor.inactiveCaption);
@@ -78,15 +86,21 @@ public class Puzzle_Game extends JFrame {
         
      
         
-        JButton btnNewButton = new JButton("New Game");// New_game_button
-        btnNewButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
        
-        
-        btnNewButton.addActionListener(new ActionListener() {
+       
+        JButton NewGameButton = new JButton("New Game");// New_game_button
+        NewGameButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
+        NewGameButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		second =0;
+        		minute = 0;
+        		Time_Label.setText(dc.format(minute) + ":" + dc.format(second));
+        		
+        		t.start();
         		
         		panel.removeAll();
         		container.repaint();
+        		
         	
         		Scramble();
         		repaintField();
@@ -94,24 +108,30 @@ public class Puzzle_Game extends JFrame {
         	}
         });
         
-        JButton btnNewButton_1 = new JButton("Exit"); //Exit_button
-        btnNewButton_1.setFont(new Font("Showcard Gothic", Font.PLAIN, 11));
         
-        btnNewButton_1.addActionListener(new ActionListener() {
+        JButton ExitButton = new JButton("Exit"); //Exit_button
+        ExitButton.setFont(new Font("Showcard Gothic", Font.PLAIN, 11)); 
+        ExitButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		t.stop();
+        		
         		setVisible(false);
         		MainMenu m = new MainMenu();
         		m.setVisible(true);
         	}
         });
         
-        btnNewButton.setBounds(31, 38, 106, 41);
-        getContentPane().add(btnNewButton);
+        NewGameButton.setBounds(31, 38, 106, 41);
+        getContentPane().add(NewGameButton);
         
        
       
-        btnNewButton_1.setBounds(31, 134, 106, 41);
-        getContentPane().add(btnNewButton_1);
+        ExitButton.setBounds(31, 134, 106, 41);
+        getContentPane().add(ExitButton);
+        
+       
+        Time_Label.setBounds(31, 258, 106, 75);
+        getContentPane().add(Time_Label);
       
         
         
@@ -254,13 +274,13 @@ public class Puzzle_Game extends JFrame {
         }
         repaintField();
         if (Check_if_Win()) {
-            JOptionPane.showMessageDialog(null, "Win", "Congratz", 1);
+        	t.stop();
+            JOptionPane.showMessageDialog(null, "YOU WON", "Congratz", 1);
             Scramble();
             repaintField();
             setVisible(false);
             setVisible(true);
         }
     }
-   
 }
   
